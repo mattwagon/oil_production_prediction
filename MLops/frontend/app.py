@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import tensorflow as tf
 
 import numpy as np
 import pandas as pd
@@ -39,7 +40,8 @@ st.checkbox("Well B")
 #}
 
 
-baseline_model = joblib.load(open("baseline_model.pkl","rb"))
+# baseline_model = joblib.load(open("baseline_model.pkl","rb"))
+baseline_model = tf.keras.models.load_model("saved_model")
 
 st.markdown("""
 #### *Please select the parameters*:
