@@ -7,6 +7,13 @@ import pandas as pd
 
 
 def preprocess_and_train():
+    '''
+    - Retrieve and concatonate csv data
+    - Clean and preprocess data
+    - Train a keras model
+    '''
+
+    from oil_production.ml_logic.data import clean_data
 
     path = os.path.join('..', 'raw_data')
     file_names = os.listdir(path)
@@ -19,4 +26,5 @@ def preprocess_and_train():
         df_aux = pd.read_csv(file_path)
         df = pd.concat([df, df_aux], ignore_index=True)
 
-    from oil_production.ml_logic.data import clean_data
+    # Clean dataframe
+    df = clean_data(df)
