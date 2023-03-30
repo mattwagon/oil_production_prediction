@@ -88,8 +88,8 @@ url = 'https://container-opp-6kchhmx67a-ew.a.run.app/predict'
 #prediction = response.json()
 #st.text(response.json())
 
-df_test = pd.DataFrame.from_dict([dic])
-prediction = baseline_model.predict(df_test)
+response = requests.post("http://localhost:8000/predict", json=dic)
+prediction = response.json()["prediction"]
 
 #pred = prediction['Qoil MPFM']
 
