@@ -1,5 +1,5 @@
 from keras import models, layers, optimizers
-from keras.regularizers import L1L2
+from keras import regularizers
 from keras.callbacks import EarlyStopping
 
 
@@ -23,7 +23,7 @@ def initialize_model(X_train, y_train):
 
     return model
 
-def fit_model(model):
+def train_model(model, X_train, y_train):
 
     es = EarlyStopping(patience=10, restore_best_weights=True, monitor='val_mae', mode='min')
 
