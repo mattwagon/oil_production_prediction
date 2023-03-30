@@ -1,9 +1,11 @@
-
+from keras import models, layers, optimizers
+from keras.regularizers import L1L2
+from keras.callbacks import EarlyStopping
 
 
 def initialize_model(X_train, y_train):
 
-    reg = regularizers.l1_l2(l1=0.005)
+    reg = regularizers.L1L2(l1=0.005)
 
     # Architecture
     model = models.Sequential()
@@ -11,8 +13,6 @@ def initialize_model(X_train, y_train):
     model.add(layers.Dropout(rate=0.1))
     output_len = y_train.shape[1]
     model.add(layers.Dense(output_len, activation='linear'))
-
-def compile_model(model):
 
     # Compile
     adam = optimizers.Adam(learning_rate=0.05)
@@ -23,7 +23,9 @@ def compile_model(model):
 
     return model
 
-def fit_model():
+def fit_model(model):
+
+    es = EarlyStopping(patience=10, restore_best_weights=True, monitor='val_mae', mode='min')
 
     history = model.fit(X_train, y_train,
                         validation_split=0.3,
