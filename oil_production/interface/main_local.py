@@ -1,10 +1,6 @@
 import os
 import pandas as pd
-
-
-
-
-
+import oil_production
 
 def preprocess_and_train():
     '''
@@ -14,6 +10,8 @@ def preprocess_and_train():
     '''
 
     from oil_production.ml_logic.data import clean_data
+    from oil_production.ml_logic.preprocess import preprocess_train, preprocess_test
+    from oil_production.ml_logic.model import initialize_model, fit_model
 
     path = os.path.join('..', 'raw_data')
     file_names = os.listdir(path)
@@ -39,7 +37,13 @@ def preprocess_and_train():
     df_train = df[(df['Date']>=train_start_date) & (df['Date']<=train_end_date)]
     df_test = df[(df['Date']>=test_start_date) & (df['Date']<=test_end_date)]
 
-    X_train, y_train = preprocess_features(df_train)
-    X_test, y_test = preprocess_features(df_test)
+    X_train, y_train = preprocess_train(df_train)
+    X_test, y_test = preprocess_test(df_test)
 
     # Initialize and fit model
+
+    model = initialize_model(X_train, y_train)
+
+    model, history = fit_model(model)
+
+    return model, history
