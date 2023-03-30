@@ -6,7 +6,7 @@ FROM python:3.8.12-buster
 COPY app.py /app.py
 COPY api_folder /api_folder
 COPY requirements.txt /requirements.txt
-COPY baseline_model.pkl /baseline_model.pkl
+#COPY baseline_model.pkl /baseline_model.pkl
 COPY saved_model /saved_model
 #COPY prediction.csv /prediction.csv
 #COPY my_package /my_package
