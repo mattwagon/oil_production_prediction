@@ -1,8 +1,9 @@
 import pandas as pd
+import numpy as np
 
 def clean_data(df: pd.Dataframe) -> pd.Dataframe:
 
-    # Drop choke, corrected, correlated features and others based on domain knowledge
+    # Drop choke, corrected, correlated and other features based on domain knowledge
     remove = ["Sand Rate", "MPFM NTotal Count Rate", "MPFM N81 Count Rate", "MPFM N356 Count Rate", "MPFM N32 Count Rate", "MPFM GOR", "Downhole Gauge T", "Downhole Gauge P", 'Qwat PC', 'Qgas PC', 'Qoil PC', 'Tubing dP', 'MPFM P', 'Qwat MPFM corrected', 'Qoil MPFM corrected', 'Qliq MPFM corrected', 'Qgas MPFM corrected', 'Choke Opening Calc1', 'Choke Opening Calc2', 'Choke Measured', 'Choke Calculated', 'Choke CCR', 'MPFM CF GOR', 'MPFM CF GOR']
 
     df.drop(columns=remove, inplace=True)
@@ -21,6 +22,10 @@ def clean_data(df: pd.Dataframe) -> pd.Dataframe:
     # Drop features with std = 0
     null_std = df.iloc[:, 1:].loc[:, df.std(numeric_only=True) < .0000001].columns
     df.drop(columns=null_std)
+
+    # Replace missing NAN with median
+    for feature in df.columns:
+        df[feature].replace(np.nan, df[feature].median(), inplace=True)
 
     print("✅ data cleaned")
 
