@@ -1,3 +1,33 @@
 raw_data/
 .python-version
-.ipynb_checkpoints/
+backup_requirements.txt
+
+.env
+.env.yaml
+train_flow-deployment.yaml
+
+# System files
+.DS_Store
+.ipynb_checkpoints
+*.pyc
+*.swp
+build/
+dist/
+.coverage
+*.iml
+*.egg-info
+*.vscode
+.python-version
+
+# Data files
+*.csv
+*.sqlite
+*.zip
+training_outputs/
+
+*.sublime-project
+*.sublime-workspace
+**/*.code-workspace
+
+# Other
+pytestdebug.log
