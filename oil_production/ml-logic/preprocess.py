@@ -44,16 +44,12 @@ def get_real_X_y(sequence, length, horizon):
 
     return np.array(X), np.array(y)
 
-def preprocess_features(df):
+def preprocess_train(df_train):
 
     X_train, y_train = get_X_y(sequence=df_train,
                length=500,
                horizon=1,
                number_of_samples=5000)
-
-    X_test_real, y_test_real = get_real_X_y(sequence=df_test,
-                                            length=500,
-                                            horizon=1)
 
     scaler_X = MinMaxScaler(feature_range=(0,1))
     scaler_y = MinMaxScaler(feature_range=(0,1))
@@ -61,6 +57,15 @@ def preprocess_features(df):
     X_train = scaler_X.fit_transform(X_train.reshape(-1,X_train.shape[-1])).reshape(X_train.shape)
     y_train = scaler_y.fit_transform(y_train.reshape(-1,y_train.shape[-1])).reshape(y_train.shape)
 
+    return X_train, y_train
+
+def preprocess_test(df_test):
+
+    X_test_real, y_test_real = get_real_X_y(sequence=df_test,
+                                            length=500,
+                                            horizon=1)
+    scaler_X = MinMaxScaler(feature_range=(0,1))
+
     X_test_real = scaler_X.transform(X_test_real.reshape(-1,X_test_real.shape[-1])).reshape(X_test_real.shape)
 
-    return X_train, y_train
+    return X_test_real, y_test_real
