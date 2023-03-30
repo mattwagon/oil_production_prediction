@@ -26,5 +26,20 @@ def preprocess_and_train():
         df_aux = pd.read_csv(file_path)
         df = pd.concat([df, df_aux], ignore_index=True)
 
-    # Clean dataframe
+    # Clean data using data.py
     df = clean_data(df)
+
+    # Create (X_train, y_train) without data leaks
+
+    train_start_date = pd.to_datetime('2007-02-01')
+    train_end_date = pd.to_datetime('2019-12-31')
+    test_start_date = pd.to_datetime('2020-01-01')
+    test_end_date = pd.to_datetime('2022-12-31')
+
+    df_train = df[(df['Date']>=train_start_date) & (df['Date']<=train_end_date)]
+    df_test = df[(df['Date']>=test_start_date) & (df['Date']<=test_end_date)]
+
+    X_train, y_train = preprocess_features(df_train)
+    X_test, y_test = preprocess_features(df_test)
+
+    # Initialize and fit model
