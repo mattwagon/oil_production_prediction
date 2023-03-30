@@ -1,9 +1,9 @@
+pandas
+numpy
 fastapi
 pytz
 uvicorn
 streamlit
-pandas
-numpy
 requests
 joblib
 tensorflow
