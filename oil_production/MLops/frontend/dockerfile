@@ -1,0 +1,44 @@
+# ####### 👇 SIMPLE SOLUTION (x86 and M1) 👇 ########
+FROM python:3.8.12-buster
+
+# COPY allows you to select the folders and files to include in your docker image
+# Here, we will include our api_folder and the requiremenets.txt file
+COPY app.py /app.py
+COPY api_folder /api_folder
+COPY requirements.txt /requirements.txt
+#COPY baseline_model.pkl /baseline_model.pkl
+COPY saved_model /saved_model
+#COPY prediction.csv /prediction.csv
+#COPY my_package /my_package
+
+# RUN allows you to run terminal commands when your image gets created
+# Here, we upgrade pip and install the libraries in our requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+#RUN pip install .
+
+EXPOSE 8501
+CMD ["streamlit", "run", "app.py"]
+
+# CMD controls the functionality of the container
+# Here, we use uvicorn to control the web server ports
+
+# local
+#CMD uvicorn api_folder.api_file:api --host 0.0.0.0
+
+# deploy to GCP
+CMD uvicorn api_folder.api_file:api --host 0.0.0.0 --port $PORT
+
+####### 👇 OPTIMIZED SOLUTION (x86)👇 #######
+
+# tensorflow base-images are optimized: lighter than python-buster + pip install tensorflow
+#FROM tensorflow/tensorflow:2.10.0
+
+#COPY api_folder /api_folder
+#COPY requirements.txt /requirements.txt
+
+#RUN pip install --upgrade pip
+#RUN pip install -r requirements.txt
+
+#CMD uvicorn api_folder.api_file:api --host 0.0.0.0
+#CMD uvicorn api_folder.api_file:api --host 0.0.0.0 --port $PORT
